@@ -47,6 +47,13 @@ module Alchemy
               @element.cell = @cell
             end
             @element.save
+
+            if @element&.precreated_elements.present?
+              @element.precreated_elements.each do |name|
+                Element.create_from_scratch(name: name, page_id: @page.id, parent_element_id: @element.id)
+              end
+            end
+
           end
           if @page.definition['insert_elements_at'] == 'top'
             @insert_at_top = true

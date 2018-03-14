@@ -29,6 +29,7 @@ module Alchemy
     FORBIDDEN_DEFINITION_ATTRIBUTES = [
       "amount",
       "nestable_elements",
+      "precreated_elements",
       "contents",
       "hint",
       "picture_gallery",
@@ -285,6 +286,11 @@ module Alchemy
       else
         "alchemy/elements/#{id}-#{page.published_at}"
       end
+    end
+
+    # A collection of element names that must be pre-created inside this element.
+    def precreated_elements
+      definition.fetch('precreated_elements', [])
     end
 
     # A collection of element names that can be nested inside this element.
