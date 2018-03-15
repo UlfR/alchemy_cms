@@ -139,7 +139,7 @@ module Alchemy
 
         if element&.precreated_elements.present?
           element.precreated_elements.each do |name|
-            Element.create_from_scratch(name: name, page_id: self.id, parent_element_id: element.id)
+            Element.create_from_scratch(name: name, page_id: page&.id, parent_element_id: element.id)
           end
         end
 
