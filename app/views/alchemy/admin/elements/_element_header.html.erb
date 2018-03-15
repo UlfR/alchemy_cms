@@ -10,6 +10,20 @@
       <% end %>
     <% end %>
   </span>
+  <%= link_to(
+        element.public? ? render_icon('eye-slash') : render_icon('eye'),
+        alchemy.publish_admin_element_path(id: element.id),
+        remote: true,
+        method: :patch,
+        class: "icon_button"
+      ) %>
+  <%= link_to(
+        render_icon('trash-alt'),
+        alchemy.trash_admin_element_path(element),
+        method: :delete,
+        class: "icon_button",
+        remote: true
+      ) -%>
   <span class="element-title">
     <span class="preview_text_element_name"><%= element.display_name %></span>
     <span class="preview_text_quote">
