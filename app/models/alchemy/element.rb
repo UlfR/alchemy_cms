@@ -136,6 +136,13 @@ module Alchemy
       def create_from_scratch(attributes)
         element = new_from_scratch(attributes)
         element.save if element
+
+        if element&.precreated_elements.present?
+          element.precreated_elements.each do |name|
+            Element.create_from_scratch(name: name, page_id: self.id, parent_element_id: element.id)
+          end
+        end
+
         element
       end
 

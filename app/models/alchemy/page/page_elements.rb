@@ -255,14 +255,7 @@ module Alchemy
       if elements.present?
         elements.each do |element|
           next if elements_already_on_page.include?(element)
-          auto_element = Element.create_from_scratch(attributes_for_element_name(element))
-
-          if auto_element&.precreated_elements.present?
-            auto_element.precreated_elements.each do |name|
-              Element.create_from_scratch(name: name, page_id: self.id, parent_element_id: auto_element.id)
-            end
-          end
-
+          Element.create_from_scratch(attributes_for_element_name(element))
         end
       end
     end
