@@ -136,6 +136,15 @@ module Alchemy
       #   could be found
       #
       def create_from_scratch(attributes)
+        row_attrs = attributes.slice(
+          :parent_element_type, :element_param, :element_format,
+          :new_element_content0, :new_element_content1, :new_element_content2
+        )
+        attributes = attributes.except(
+          :parent_element_type, :element_param, :element_format,
+          :new_element_content0, :new_element_content1, :new_element_content2
+        )
+
         element = new_from_scratch(attributes)
         element.save if element
 
