@@ -30,6 +30,7 @@ module Alchemy
       "amount",
       "nestable_elements",
       "precreated_elements",
+      "partable",
       "contents",
       "hint",
       "picture_gallery",
@@ -293,6 +294,10 @@ module Alchemy
       else
         "alchemy/elements/#{id}-#{page.published_at}"
       end
+    end
+
+    def partable?
+      definition.fetch('partable', false)
     end
 
     # A collection of element names that must be pre-created inside this element.
