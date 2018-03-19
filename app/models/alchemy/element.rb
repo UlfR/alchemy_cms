@@ -139,9 +139,13 @@ module Alchemy
         element = new_from_scratch(attributes)
         element.save if element
 
-        if element&.precreated_elements.present?
-          element.precreated_elements.each do |name|
-            Element.create_from_scratch(name: name, page_id: element.page&.id, parent_element_id: element.id)
+        if element.rowable? && row_attrs[:element_format].present? && row_attrs[:element_format] != '0'
+          element.precreate_row(row_attrs)
+        else
+          if element&.precreated_elements.present?
+            element.precreated_elements.each do |name|
+              Element.create_from_scratch(name: name, page_id: element.page&.id, parent_element_id: element.id)
+            end
           end
         end
 
@@ -294,6 +298,25 @@ module Alchemy
         "alchemy/elements/#{id}-#{updated_at}"
       else
         "alchemy/elements/#{id}-#{page.published_at}"
+      end
+    end
+
+    def precreate_row(row_attrs)
+      format = row_attrs[:element_format]
+      cols = format.size
+      (0...cols).to_a.map do |col|
+        size = format[col]
+        type = row_attrs["new_element_content#{col}"]
+        next unless type.present?
+
+        part = Element.create_from_scratch(name: 'part', page_id: page&.id, parent_element_id: id)
+        size_cid = part.content_by_name(:size).id.to_s
+        type_cid = part.content_by_name(:content_type).id.to_s
+        contents_attributes = {}
+        contents_attributes[size_cid] = {ingredient: "#{size}x1"}
+        contents_attributes[type_cid] = {ingredient: type}
+
+        part.update_contents(contents_attributes)
       end
     end
 
