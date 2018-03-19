@@ -30,6 +30,7 @@ module Alchemy
       "amount",
       "nestable_elements",
       "precreated_elements",
+      "rowable",
       "partable",
       "contents",
       "hint",
@@ -294,6 +295,10 @@ module Alchemy
       else
         "alchemy/elements/#{id}-#{page.published_at}"
       end
+    end
+
+    def rowable?
+      definition.fetch('rowable', false)
     end
 
     def partable?
