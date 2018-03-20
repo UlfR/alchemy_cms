@@ -72,9 +72,20 @@ $.extend Alchemy,
   # Initializes all select tag with .alchemy_selectbox class as selectBoxIt instance
   # Pass a jQuery scope to only init a subset of selectboxes.
   SelectBox: (scope) ->
+    formatSelect = (item) ->
+      opt = $(item.element)
+      with_text = unless opt.data('withoutText')
+        item.text
+      else
+        ''
+      return '<i class="fa ' + opt.data('icon') + '"></i> ' + with_text
+
     $("select.alchemy_selectbox", scope).select2
       minimumResultsForSearch: 7
       dropdownAutoWidth: true
+      formatResult: formatSelect
+      formatSelection: formatSelect
+      escapeMarkup: (markup) -> markup
     return
 
   # Selects cell tab for given name.
