@@ -31,6 +31,7 @@ module Alchemy
       "nestable_elements",
       "precreated_elements",
       "rowable",
+      "persistable",
       "partable",
       "contents",
       "hint",
@@ -332,6 +333,11 @@ module Alchemy
     def rowable?
       definition.fetch('rowable', false)
     end
+
+    def persistable?
+      definition.fetch('persistable', false)
+    end
+
 
     def partable?
       definition.fetch('partable', false)
